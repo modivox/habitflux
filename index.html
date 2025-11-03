@@ -5,34 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>HabitFlux — Simple Habit Tracker</title>
   <style>
-    /* Minimal basic styling (commit 1) */
-    :root { --bg:#f6f7fb; --card:#fff; --muted:#6b7280; --accent:#6366f1; }
-    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; background:var(--bg); margin:0; padding:24px; color:#111;}
-    .container{max-width:900px;margin:0 auto;}
-    header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+    :root {
+      --bg:#f6f7fb; --card:#fff; --muted:#6b7280; --accent:#6366f1;
+      --glass: rgba(255,255,255,0.6);
+    }
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; background:linear-gradient(180deg,#f6f7fb 0%, #eef2ff 100%); margin:0; padding:28px; color:#0f172a;}
+    .container{max-width:920px;margin:0 auto;}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
     h1{font-size:1.25rem;margin:0;}
     .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(17,24,39,0.06);}
-    #addHabitForm{display:flex;gap:8px;align-items:center;}
-    input, button{font-size:0.95rem;padding:8px;border-radius:8px;border:1px solid #e6e9ef;}
-    button{background:var(--accent);color:white;border:none;cursor:pointer;}
-    .habits{margin-top:16px;display:flex;flex-direction:column;gap:12px;}
+    #addHabitForm{display:flex;gap:8px;align-items:center;margin-bottom:12px;}
+    input[type="text"], button, input[type="color"]{font-size:0.95rem;padding:8px;border-radius:10px;border:1px solid #e6e9ef;}
+    input[type="color"]{padding:4px;width:48px;height:40px;border-radius:8px;}
+    button{background:var(--accent);color:white;border:none;cursor:pointer;padding:8px 12px;border-radius:10px;}
+    .habits{margin-top:8px;display:flex;flex-direction:column;gap:12px;}
     .habit{padding:12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
     .muted{color:var(--muted);font-size:0.9rem;}
+    .controls{display:flex;gap:8px;align-items:center;margin-top:12px;}
+    .small{font-size:0.85rem;padding:6px 10px;border-radius:8px;border:1px solid #e6e9ef;background:#fff;}
+    @media (max-width:600px){#addHabitForm{flex-direction:column;align-items:stretch;} .controls{flex-direction:column;align-items:stretch}}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>HabitFlux</h1>
-      <div class="muted">Tiny habit tracker</div>
+      <div class="muted">Tiny habit tracker with streaks</div>
     </header>
 
     <section class="card" id="app">
-      <form id="addHabitForm">
-        <input id="habitName" placeholder="New habit (eg. Drink water)" required />
-        <input id="habitColor" type="color" title="Pick a color for this habit" />
+      <form id="addHabitForm" aria-label="Add habit">
+        <input id="habitName" type="text" placeholder="New habit (eg. Drink water)" required />
+        <input id="habitColor" type="color" title="Pick a color for this habit" value="#6366f1" />
         <button type="submit">Add</button>
       </form>
+
+      <div class="controls">
+        <div class="muted" id="summary">0 habits • 0 completions today</div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button id="exportBtn" class="small">Export JSON</button>
+          <button id="clearBtn" class="small">Clear all</button>
+        </div>
+      </div>
 
       <div id="habits" class="habits" aria-live="polite">
         <!-- habits will render here -->
