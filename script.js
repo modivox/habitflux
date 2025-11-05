@@ -1,4 +1,4 @@
-// script.js (commit 3) — persistence and improved UI
+// script.js (final - commit 4)
 document.addEventListener('DOMContentLoaded', () => {
   const STORAGE_KEY = 'habitflux.data.v1';
   const form = document.getElementById('addHabitForm');
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function lastCompleted(habit) {
     if (!habit.history || habit.history.length === 0) return null;
-    // history stored sorted descending
     const sorted = habit.history.slice().sort().reverse();
     return sorted[0];
   }
@@ -144,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
   }
 
-  // Simple export
+  // Export JSON to download
   exportBtn.addEventListener('click', () => {
     const data = JSON.stringify(habits, null, 2);
     const blob = new Blob([data], { type: 'application/json' });
